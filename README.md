@@ -12,10 +12,17 @@ Logger is a simple ruby program to analyze request log files, Its purpose is to 
 ```powershell
 bin/setup
 ```
+# GettingStarted
+
 ### Console
 ```powershell
 bin/console
 ```
+
+```ruby
+# TODO:
+```
+
 ### Program Design
 ```powershell
   TODO:
