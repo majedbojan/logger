@@ -206,7 +206,7 @@ Metrics/AbcSize:
   Max: 30
 
 Layout/LineLength:
-  Max: 120
+  Max: 150
 
 Metrics/ClassLength:
   Max: 1500
@@ -215,7 +215,7 @@ Metrics/MethodLength:
   Max: 25
 
 Metrics/BlockLength:
-  Max: 70
+  Enabled: false
 
 Layout/HashAlignment:
   EnforcedHashRocketStyle: table

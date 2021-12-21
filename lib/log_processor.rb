@@ -1,30 +1,39 @@
 # frozen_string_literal: true
 
-# require_relative '../lib/log_processor/analyzer'
 require_relative '../lib/log_processors/analyzer'
 
 class LogProcessor
-  # def initialize(log_file)
-  #   @log_file = log_file
-  # end
+  attr_reader :analyzer
 
-  def self.process
-    new.process
+  def initialize(log_file_path)
+    @analyzer = LogProcessors::Analyzer.new(log_file_path)
+    @response = analyzer.perform
   end
 
   def process
-    results = LogProcessors::Analyzer.perform
-
-    # puts "Total number of requests: "
-    puts 'list of webpages with most page views ordered from most pages views to less page views'
-    results[:most_views].each do |record|
-      p "#{record[:page]} #{record[:views]} visits"
+    if analyzer.success?
+      most_views_response
+      unique_views_response
+    else
+      p analyzer.error_message
     end
+  end
 
-    puts 'list of webpages with most unique page views also ordered'
-    results[:unique_views].each do |record|
-      p "#{record[:page]} #{record[:no_of_unique_views]} visits"
+  private
+
+  attr_reader :response
+
+  def most_views_response
+    puts 'List of webpages with most page views ordered from most pages views to less page views'
+    response[:most_views].each do |record|
+      p "#{record[:page].ljust(30)} #{record[:views]} visits"
+    end
+  end
+
+  def unique_views_response
+    puts 'List of webpages with most unique page views ordered from most pages views to less page views'
+    response[:unique_views].each do |record|
+      p "#{record[:page].ljust(30)} #{record[:no_of_unique_views]} visits"
     end
   end
 end
-

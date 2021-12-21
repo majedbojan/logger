@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
+require './lib/log_processors/base'
+
 module LogProcessors
   class Parser < Base
-    def self.parse(logs)
-      new(logs).parse
+    def initialize(log_file)
+      super
+      @log_file = File.readlines(log_file) if success?
     end
 
-    def parse
+    def perform
       result_parse = []
 
-      logs.each do |log|
+      log_file.each do |log|
         parser = log.split
 
         # If can't parse the log line for any reason.
@@ -24,6 +27,8 @@ module LogProcessors
     end
 
     private
+
+    attr_reader :log_file
 
     def json_builder(parsed_line)
       {
@@ -43,8 +48,3 @@ module LogProcessors
     end
   end
 end
-
-# require 'pry'
-# path = '/Users/majed/sites/technical_test/logger/seed/webserver.log'
-# logs = File.readlines(path)
-# Parser.parse(logs)

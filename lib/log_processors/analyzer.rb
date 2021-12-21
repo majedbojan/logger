@@ -1,26 +1,13 @@
 # frozen_string_literal: true
 
 require './lib/log_processors/base'
+require './lib/log_processors/parser'
 
 module LogProcessors
   class Analyzer < Base
-    def logs
-      [
-        { ip: "126.318.035.038\n", id: '1', full_path: '/help_page/1', path: '/help_page/' },
-        { ip: "126.318.035.038\n", id: '2', full_path: '/help_page/2', path: '/help_page/' },
-        { ip: "184.123.665.067\n", id: nil, full_path: '/contact', path: '/contact' },
-        { ip: "184.123.665.067\n", id: nil, full_path: '/home', path: '/home' },
-        { ip: "444.701.448.104\n", id: '2', full_path: '/about/2', path: '/about/' },
-        { ip: "929.398.951.889\n", id: '1', full_path: '/help_page/1', path: '/help_page/' },
-        { ip: "444.701.448.104\n", id: nil, full_path: '/index', path: '/index' },
-        { ip: "722.247.931.582\n", id: '1', full_path: '/help_page/1', path: '/help_page/' },
-        { ip: "061.945.150.735\n", id: nil, full_path: '/about', path: '/about' },
-        { ip: "646.865.545.408\n", id: '1', full_path: '/help_page/1', path: '/help_page/' },
-        { ip: "235.313.352.950\n", id: nil, full_path: '/home', path: '/home' }
-      ]
-    end
-
     def perform
+      return {} unless parser.success?
+
       {
         most_views:   most_views.sort_by! { |k| -k[:views] },
         unique_views: unique_views.sort_by! { |k| -k[:no_of_unique_views] }
@@ -29,27 +16,43 @@ module LogProcessors
 
     private
 
-    def webpages
-      logs.group_by { |h| h[:path] }
+    def parser
+      LogProcessors::Parser.new(log_file)
+    end
+
+    def logs
+      @logs ||= parser.perform
+    end
+
+    def webpages(order_by)
+      logs.group_by { |h| h[order_by.to_sym] }
     end
 
     # This one resulting wrong respnse pls read the doc
     def unique_views
-      webpages.map do |web_pages, viewed_pages|
+      webpages_group_by_full_path.map do |page, viewed_pages|
         {
-          page:               web_pages,
-          no_of_unique_views: viewed_pages.map { |page| page[:id] }.uniq.size
+          page:               page,
+          no_of_unique_views: viewed_pages.map { |v_page| v_page[:id] }.size
         }
       end
     end
 
     def most_views
-      webpages.map do |web_pages, viewed_pages|
+      webpages_group_by_path.map do |page, viewed_pages|
         {
-          page:  web_pages,
+          page:  page,
           views: viewed_pages.size
         }
       end
+    end
+
+    def webpages_group_by_path
+      logs.group_by { |l| l[:path] }
+    end
+
+    def webpages_group_by_full_path
+      logs.group_by { |l| l[:full_path] }
     end
   end
 end
