@@ -28,7 +28,6 @@ module LogProcessors
       logs.group_by { |h| h[order_by.to_sym] }
     end
 
-    # This one resulting wrong respnse pls read the doc
     def unique_views
       webpages_group_by_full_path.map do |page, viewed_pages|
         {
