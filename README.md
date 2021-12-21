@@ -22,10 +22,12 @@ bin/setup
 ```powershell
 bin/console
 ```
-### Output
 ```ruby
 LogProcessor.new(File.open('spec/fixtures/webserver.log', 'r')).process
+```
 
+### Output
+```ruby
 List of webpages with most page views ordered from most pages views to less page views
 "/about/                        92 visits"
 "/contact                       89 visits"
@@ -61,9 +63,9 @@ bundle exec rspec spec/
 ├─ spec
 ```
 
-- *lib* - The home of extended modules, it organizes and directory holds the components of our app, It's got subdirectories that hold the parser and analyzer classes
-- *app/base* - It's the base class that inherited by analyzer and parser it has the common shared methods
-- *app/analyzer* - This class will analyze our report and will get the response as JSON this class has been used/called by LogProcessor class
-- *app/parser* - It's responsibility is to parse the log file and return array of hashes
-- *log_processor* - It's acting as an interface for the program user, This class accepts a file as an argument and prints out the analyze logs
-- *spec* - Well knowing directory :wink:, It's the power of TDD! You'll see subdirectory unit tests, fixtures, helpers, etc
+- **lib** - The home of extended modules, it organizes and directory holds the components of our app, It's got subdirectories that hold the parser and analyzer classes
+- **app/base** - It's the base class that inherited by analyzer and parser it has the common shared methods
+- **app/analyzer** - This class will analyze our report and will get the response as JSON this class has been used/called by LogProcessor class
+- **app/parser** - It's responsibility is to parse the log file and return array of hashes
+- **log_processor** - It's acting as an interface for the program user, This class accepts a file as an argument and prints out the analyze logs
+- **spec** - Well knowing directory :wink:, It's the power of TDD! You'll see subdirectory unit tests, fixtures, helpers, etc
