@@ -18,8 +18,8 @@ RSpec.describe LogProcessor do
       expect(subject.analyzer.error_message).to eq('')
     end
 
-    it 'should return analyzed response as an array' do
-      expect(subject.process).to be_a(Array)
+    it 'should return a nil' do
+      expect(subject.process).to be_a(NilClass)
     end
 
     it 'should return viewed webpages as an array of hashes' do

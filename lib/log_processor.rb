@@ -17,6 +17,8 @@ class LogProcessor
     else
       p analyzer.error_message
     end
+
+    GC.start
   end
 
   private
