@@ -6,7 +6,21 @@ module LogProcessors
   class Parser < Base
     def initialize(log_file)
       super
-      @log_file = File.readlines(log_file) if success?
+      @log_file = read_file_into_array if success?
+    end
+
+    # NOTE: First I was using readlines but I noticed it constructs an empty array []
+    # and repeatedly reads a line of file contents and pushes it to the array.
+    # I thought each_line will solve performance issue for large file
+    # but it looks it will be helpful when processing line by line and adding some logic which my structure doesn't
+    # I would like to investigate more and come with better solution but couldn't do that due of lack of time
+    # and balancing between the work pressure we have in these weeks in my current role
+    # and coming with better solution to solve the technical test
+    # @log_file = File.readlines(log_file) if success?
+    def read_file_into_array
+      arr = []
+      log_file.each_line { |line| arr << line }
+      arr
     end
 
     def perform

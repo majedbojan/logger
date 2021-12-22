@@ -17,7 +17,7 @@ module LogProcessors
     private
 
     def parser
-      LogProcessors::Parser.new(log_file)
+      @parser ||= LogProcessors::Parser.new(log_file)
     end
 
     def logs
