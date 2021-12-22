@@ -13,9 +13,9 @@ module LogProcessors
     # and repeatedly reads a line of file contents and pushes it to the array.
     # I thought each_line will solve performance issue for large file
     # but it looks it will be helpful when processing line by line and adding some logic which my structure doesn't
-    # I would like to investigate more and come with better solution but couldn't do that due of lack of time
-    # and balancing between the work pressure we have in these weeks in my current role
-    # and coming with better solution to solve the technical test
+    # I would like to investigate more and come up with a better solution but couldn't do that due to lack of time,
+    # balancing between the work pressure we have in these weeks in my current role
+    # and coming up with a better solution to solve the technical test
     # @log_file = File.readlines(log_file) if success?
     def read_file_into_array
       arr = []

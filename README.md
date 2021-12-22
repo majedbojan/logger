@@ -50,7 +50,13 @@ List of webpages with most unique page views ordered from most pages views to le
 
 ```powershell
 bundle exec rspec spec/
+
+# Output
+Finished in 0.06133 seconds (files took 0.10221 seconds to load)
+26 examples, 0 failures
 ```
+
+
 ### Directory Structure
 
 ```sh
